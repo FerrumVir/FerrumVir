@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Den · TJ Dunham</title><meta name="description" content="TJ Dunham. Agentic AI engineer, founder of ARC. Shipping better inference.">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IM+Fell+English:ital@1&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}</script>
+<style>
+:root{--ink:#0b0a09;--bone:#ece4d2;--gold:#d8ab52;--dim:#9d9583}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--bone);overflow:hidden}
+canvas{position:fixed;inset:0;display:block}
+.f{position:fixed;inset:14px;border:1px solid rgba(236,228,210,.26);pointer-events:none}
+#t{position:fixed;left:max(6vw,28px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;pointer-events:none;max-width:44vw}
+.k{font:500 12px 'JetBrains Mono',monospace;letter-spacing:.26em;color:var(--gold)}
+h1{margin:0;font:400 clamp(44px,7vw,108px)/.95 'IM Fell English SC',Georgia,serif;letter-spacing:.06em}
+.s{font:italic 400 clamp(20px,2.3vw,32px) 'IM Fell English',Georgia,serif;color:#cfc6b2}
+.lk{position:fixed;left:max(6vw,28px);bottom:34px;display:flex;gap:22px;font:500 12px 'JetBrains Mono',monospace;letter-spacing:.2em}
+.lk a{color:var(--bone);text-decoration:none;border-bottom:1px solid rgba(236,228,210,.35);padding-bottom:3px}.lk a:hover{color:var(--gold);border-color:var(--gold)}
+.pl{position:fixed;right:34px;bottom:30px;font:italic 400 17px 'IM Fell English',Georgia,serif;color:var(--dim)}
+@media (max-aspect-ratio:1/1){#t{top:auto;bottom:96px;transform:none;max-width:none}.pl{display:none}}
+</style></head><body>
+<canvas id="c" aria-label="A lone figure stands before a lit doorway while fifty-four gold agents orbit him"></canvas><div class="f"></div>
+<div id="t"><div class="k">FIG. 1 · THE DEN</div><h1>TJ Dunham</h1><div class="s">shipping better inference.</div></div>
+<nav class="lk"><a href="https://x.com/realtjdunham">X</a><a href="https://github.com/FerrumVir/arc-chain">ARC CHAIN</a><a href="https://github.com/FerrumVir">GITHUB</a></nav>
+<div class="pl">fifty-four agents in orbit</div>
+<script type="module">
+import { createDen } from './den.js';
+const c = document.getElementById('c'); const narrow = () => innerWidth / innerHeight < 1.1;
+let den = createDen(c, { width: innerWidth, height: innerHeight, pixel: 2, look: narrow() ? [0, 2.4, 0] : [-2.4, 2.35, 0] });
+const p = [0, 0]; addEventListener('pointermove', (e) => { p[0] = (e.clientX / innerWidth) * 2 - 1; p[1] = (e.clientY / innerHeight) * 2 - 1; });
+addEventListener('deviceorientation', (e) => { if (e.gamma != null) { p[0] = Math.max(-1, Math.min(1, e.gamma / 30)); p[1] = Math.max(-1, Math.min(1, (e.beta - 45) / 30)); } });
+let wasNarrow = narrow(); addEventListener('resize', () => { if (narrow() !== wasNarrow) { wasNarrow = narrow(); den = createDen(c, { width: innerWidth, height: innerHeight, pixel: 2, look: wasNarrow ? [0, 2.4, 0] : [-2.4, 2.35, 0] }); } else den.resize(innerWidth, innerHeight); });
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches; const t0 = performance.now();
+(function loop(now) { den.frame(still ? 0.15 : ((now - t0) / 9000) % 1, { parallax: still ? [0, 0] : p }); requestAnimationFrame(loop); })(t0);
+</script></body></html>
